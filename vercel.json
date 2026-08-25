@@ -4,7 +4,7 @@
   "redirects": [
     { "source": "/offert", "destination": "/kontakt", "permanent": true },
     { "source": "/kontakta-oss", "destination": "/kontakt", "permanent": true },
-    { "source": "/tjanster/:path*", "destination": "/tjanster", "permanent": true }
+    { "source": "/tjanster/:path+", "destination": "/tjanster", "permanent": true }
   ],
   "headers": [
     {
