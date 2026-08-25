@@ -12,11 +12,39 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const { name, email, phone, service, message, address, area, type } = req.body || {};
+  const { name, email, phone, service, message, address, area, type, attachments } = req.body || {};
 
   if (!name || !phone) {
     res.status(400).json({ error: 'Namn och telefonnummer krävs.' });
     return;
+  }
+
+  const MAX_FILES = 3;
+  // Vercel's serverless request body is capped around 4.5 MB total, and base64 adds ~33%
+  // overhead on top of the raw file bytes — cap the raw size well under that ceiling.
+  const MAX_TOTAL_BYTES = 3 * 1024 * 1024;
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'application/pdf'];
+
+  let safeAttachments = [];
+  if (Array.isArray(attachments) && attachments.length) {
+    if (attachments.length > MAX_FILES) {
+      res.status(400).json({ error: `Max ${MAX_FILES} bilagor per förfrågan.` });
+      return;
+    }
+    let totalBytes = 0;
+    for (const file of attachments) {
+      if (!file || typeof file.content !== 'string' || !file.filename) continue;
+      if (file.contentType && !ALLOWED_TYPES.includes(file.contentType)) {
+        res.status(400).json({ error: 'Endast bilder (JPG/PNG/WEBP/HEIC) eller PDF kan bifogas.' });
+        return;
+      }
+      totalBytes += Math.ceil((file.content.length * 3) / 4);
+      if (totalBytes > MAX_TOTAL_BYTES) {
+        res.status(400).json({ error: 'Bilagorna är för stora (max 4 MB totalt).' });
+        return;
+      }
+      safeAttachments.push({ filename: file.filename, content: file.content });
+    }
   }
 
   const headings = {
@@ -37,6 +65,7 @@ module.exports = async (req, res) => {
     ${address ? `<p><strong>Adress:</strong> ${escapeHtml(address)}</p>` : ''}
     ${area ? `<p><strong>Område:</strong> ${escapeHtml(area)}</p>` : ''}
     ${message ? `<p><strong>Meddelande:</strong><br>${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}
+    ${safeAttachments.length ? `<p><strong>Bilagor:</strong> ${safeAttachments.map((f) => escapeHtml(f.filename)).join(', ')}</p>` : ''}
   `;
 
   try {
@@ -51,6 +80,7 @@ module.exports = async (req, res) => {
       reply_to: email || undefined,
       subject,
       html,
+      attachments: safeAttachments.length ? safeAttachments : undefined,
     });
 
     if (error) {

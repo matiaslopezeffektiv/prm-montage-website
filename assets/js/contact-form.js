@@ -1,6 +1,7 @@
 /* ============================================
    PRM MONTAGE — Formulär (hero, kontakt, jour, ortssidor)
    Alla formulär med klassen .nt-ajax-form skickas till /api/contact
+   Stödjer valfria filbilagor via ett input[type=file] (se form-utils.js)
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
   forms.forEach(function (form) {
     var messageBox = form.querySelector('.nt-form-message');
     var submitBtn = form.querySelector('button[type="submit"]');
+    var fileInput = form.querySelector('input[type="file"]');
     var originalBtnText = submitBtn ? submitBtn.innerHTML : '';
 
     function showMessage(text, isError) {
@@ -23,19 +25,26 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (messageBox) messageBox.style.display = 'none';
+
+      var formData = new FormData(form);
+      if (fileInput && fileInput.name) formData.delete(fileInput.name);
+      var data = Object.fromEntries(formData.entries());
+      data.type = form.getAttribute('data-form-type') || 'contact';
+
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Skickar...';
       }
 
-      var data = Object.fromEntries(new FormData(form).entries());
-      data.type = form.getAttribute('data-form-type') || 'contact';
-
-      fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+      window.PRMForm.readAttachments(fileInput)
+        .then(function (attachments) {
+          data.attachments = attachments;
+          return fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+        })
         .then(function (res) {
           return res.json().then(function (body) {
             if (!res.ok) throw new Error(body.error || 'Något gick fel.');

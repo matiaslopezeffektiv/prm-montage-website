@@ -931,8 +931,17 @@ a:hover { color: var(--nt-orange-dark); }
   position: relative;
   padding-top: 170px;
   padding-bottom: 90px;
-  background: linear-gradient(120deg, var(--nt-navy-dark) 0%, var(--nt-navy) 55%, var(--nt-navy-light) 100%);
+  background:
+    linear-gradient(100deg, rgba(15,45,39,.94) 0%, rgba(15,45,39,.86) 42%, rgba(15,45,39,.55) 75%, rgba(15,45,39,.4) 100%),
+    url('../img/hero/hero-home-mobile.webp') center/cover no-repeat;
   overflow: hidden;
+}
+@media (min-width: 768px) {
+  .nt-hero-static {
+    background:
+      linear-gradient(100deg, rgba(15,45,39,.94) 0%, rgba(15,45,39,.86) 42%, rgba(15,45,39,.55) 75%, rgba(15,45,39,.4) 100%),
+      url('../img/hero/hero-home.webp') center/cover no-repeat;
+  }
 }
 .nt-hero-static::before {
   content: "";
@@ -1149,3 +1158,89 @@ a:hover { color: var(--nt-orange-dark); }
 
 /* --- Map embed frame --- */
 .nt-map-frame { border: 0; width: 100%; height: 340px; border-radius: 14px; display: block; }
+
+/* ============================================================
+   FIXAR (mobil-overflow, ikon-specificitet, nav, lightbox)
+   ============================================================ */
+
+/* Bootstrap's .row redeclares --bs-gutter-x per gutter class (g-4=24px, g-5=48px half-margins
+   of 12/24px), but .container only ever pads 15px. On any row using g-4/g-5 that half-margin
+   exceeds the container's own padding, so content is pushed past the viewport edge and clipped
+   by the site-wide `overflow-x:hidden` safety net instead of staying inside it — text and cards
+   visibly lose their last few pixels/characters on phones. Bumping the container's own gutter to
+   48px matches the largest gutter class in use (g-5) so no row can ever push past it again. */
+@media (max-width: 767px) {
+  .container { --bs-gutter-x: 48px; }
+}
+
+/* budgeto's `.tp-feature-3-wrap span` (class+element, higher specificity than our single-class
+   .nt-icon-card__icon) forces every icon in the "Trygghetspunkter" row into an 80px navy circle
+   with line-height:80px — oversized, wrong colour, and on narrow screens it pushes the heading
+   below it with zero breathing room since our own margin/gap rules never get to apply. Re-target
+   with matching specificity and force the row to stay icon-left/text-right (with a real gap) at
+   every width instead of whatever budgeto's own flex-direction happens to resolve to. */
+.tp-feature-3-wrap.tpshake-wrap {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 20px;
+}
+.tp-feature-3-wrap span.nt-icon-card__icon {
+  width: 58px !important;
+  height: 58px !important;
+  line-height: normal !important;
+  border-radius: 14px !important;
+  background: rgba(31, 169, 104, 0.12) !important;
+  color: var(--nt-orange) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+}
+.tp-feature-3-wrap span.nt-icon-card__icon i { font-size: 1.3rem; }
+
+/* --- Lightbox for the /projekt gallery (magnific-popup is loaded but was never wired up) --- */
+.nt-lightbox-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(11, 26, 23, 0.92);
+  align-items: center; justify-content: center;
+  padding: 40px 20px;
+}
+.nt-lightbox-overlay.active { display: flex; }
+.nt-lightbox-overlay img {
+  max-width: 100%; max-height: 88vh; border-radius: 10px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+.nt-lightbox-overlay .nt-lightbox-caption {
+  position: absolute; bottom: 28px; left: 0; right: 0;
+  text-align: center; color: #fff; font-size: .95rem;
+}
+.nt-lightbox-close, .nt-lightbox-prev, .nt-lightbox-next {
+  position: absolute; background: rgba(255,255,255,0.12); border: none; color: #fff;
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.nt-lightbox-close:hover, .nt-lightbox-prev:hover, .nt-lightbox-next:hover { background: var(--nt-orange); }
+.nt-lightbox-close { top: 20px; right: 20px; width: 44px; height: 44px; font-size: 1.2rem; }
+.nt-lightbox-prev, .nt-lightbox-next { top: 50%; transform: translateY(-50%); width: 50px; height: 50px; font-size: 1.1rem; }
+.nt-lightbox-prev { left: 16px; }
+.nt-lightbox-next { right: 16px; }
+@media (max-width: 575.98px) {
+  .nt-lightbox-prev, .nt-lightbox-next { width: 40px; height: 40px; }
+}
+
+/* --- File upload field (offert-formulär) --- */
+.nt-file-field {
+  border: 1.5px dashed #cfe0da;
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--nt-gray-light);
+}
+.nt-file-field input[type="file"] {
+  width: 100%; font-size: .85rem; color: var(--nt-gray); border: none; background: none; padding: 0;
+}
+.nt-file-field .nt-file-hint { font-size: .78rem; color: var(--nt-gray); margin-top: 6px; }
+.nt-file-list { margin-top: 8px; font-size: .82rem; color: var(--nt-navy); }

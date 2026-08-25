@@ -74,7 +74,7 @@
     <div class="container-fluid px-40">
       <div class="row align-items-center">
         <div class="col-xl-2 col-lg-3 col-6"><div class="tplogo"><a href="/"><img src="assets/img/logo/logo-color.png" alt="PRM Montage" style="height:44px;width:auto;"></a></div></div>
-        <div class="col-xl-8 col-lg-7 d-none d-lg-block">
+        <div class="col-xl-7 col-lg-7 d-none d-lg-block">
           <div class="tp-main-menu main-menu d-flex justify-content-center">
             <nav class="tp-mobile-menu-active">
               <ul>
@@ -83,7 +83,7 @@
                   <ul class="submenu tp-submenu d-lg-none"><li><a href="/koksrenovering-stockholm">Köksrenovering Stockholm</a></li><li><a href="/bygg-renovering">Bygg &amp; renovering</a></li><li><a href="/vvs-badrum">VVS &amp; Badrum</a></li><li><a href="/elektriker-stockholm">Elektriker Stockholm</a></li><li><a href="/altanbygge-i-stockholm">Altanbygge i Stockholm</a></li><li><a href="/jour">Jour</a></li></ul>
                   <div class="nt-megamenu d-none d-lg-block">
                     <div class="nt-megamenu__inner">
-                      <div class="nt-megamenu__cols"><div class="nt-megamenu__col"><span class="nt-megamenu__heading">Renovering &amp; Bygg</span><a href="/koksrenovering-stockholm"><i class="fas fa-kitchen-set"></i><span>Köksrenovering Stockholm</span></a><a href="/bygg-renovering"><i class="fas fa-hammer"></i><span>Bygg &amp; renovering</span></a><a href="/vvs-badrum"><i class="fas fa-shower"></i><span>VVS &amp; Badrum</span></a></div><div class="nt-megamenu__col"><span class="nt-megamenu__heading">Installation &amp; Service</span><a href="/elektriker-stockholm"><i class="fas fa-bolt"></i><span>Elektriker Stockholm</span></a><a href="/altanbygge-i-stockholm"><i class="fas fa-sun"></i><span>Altanbygge i Stockholm</span></a><a href="/jour"><i class="fas fa-triangle-exclamation"></i><span>Jour — akut hjälp</span></a></div></div>
+                      <div class="nt-megamenu__cols"><div class="nt-megamenu__col"><span class="nt-megamenu__heading">Renovering &amp; Bygg</span><a href="/koksrenovering-stockholm"><i class="fas fa-utensils"></i><span>Köksrenovering Stockholm</span></a><a href="/bygg-renovering"><i class="fas fa-hammer"></i><span>Bygg &amp; renovering</span></a><a href="/vvs-badrum"><i class="fas fa-shower"></i><span>VVS &amp; Badrum</span></a></div><div class="nt-megamenu__col"><span class="nt-megamenu__heading">Installation &amp; Service</span><a href="/elektriker-stockholm"><i class="fas fa-bolt"></i><span>Elektriker Stockholm</span></a><a href="/altanbygge-i-stockholm"><i class="fas fa-sun"></i><span>Altanbygge i Stockholm</span></a><a href="/jour"><i class="fas fa-triangle-exclamation"></i><span>Jour — akut hjälp</span></a></div></div>
                       <div class="nt-megamenu__promo" style="background-image:url('assets/img/projekt/badrum-05.webp')"><div class="nt-megamenu__promo-content"><span>Fast pris</span><h4>Kostnadsfri offert inom kort</h4><a href="/kontakt" class="nt-megamenu__promo-btn">Begär offert <i class="fa-sharp fa-regular fa-arrow-right"></i></a></div></div>
                     </div>
                   </div>
@@ -96,8 +96,8 @@
             </nav>
           </div>
         </div>
-        <div class="col-xl-2 col-lg-2 col-6 d-flex justify-content-end align-items-center gap-3">
-          <a href="tel:+46852027977" class="d-none d-xl-flex align-items-center gap-2" style="text-decoration:none;color:var(--nt-navy);font-weight:700;font-size:.95rem;"><i class="fas fa-phone" style="color:#1FA968;"></i>08-520 279 77</a>
+        <div class="col-xl-3 col-lg-2 col-6 d-flex justify-content-end align-items-center gap-3">
+          <a href="tel:+46852027977" class="d-none d-xxl-flex align-items-center gap-2" style="text-decoration:none;color:var(--nt-navy);font-weight:700;font-size:.9rem;white-space:nowrap;flex-shrink:0;"><i class="fas fa-phone" style="color:#1FA968;"></i>08-520 279 77</a>
           <a href="#" class="tp-btn hire-btn d-none d-lg-inline-flex">Begär offert</a>
           <button class="tp-offcanvas-open-btn tp-menu-bar d-lg-none" aria-label="Öppna meny"><i class="fas fa-bars" style="font-size:1.4rem;color:#1F5C50;"></i></button>
         </div>
@@ -265,6 +265,12 @@
         <div class="row-2col"><div class="form-group"><label>E-postadress</label><input type="email" name="email" placeholder="anna@exempel.se"></div><div class="form-group"><label>Adress</label><input type="text" name="address" placeholder="Gata, ort"></div></div>
         <div class="form-group"><label>Vilken tjänst gäller det? *</label><select name="service" required><option value="">— Välj tjänst —</option><option>Köksrenovering</option><option>Bygg &amp; renovering</option><option>VVS &amp; Badrum</option><option>Elektriker</option><option>Altanbygge</option><option>Jour / akut</option><option>Annat</option></select></div>
         <div class="form-group"><label>Beskriv ditt projekt</label><textarea name="message" placeholder="Berätta gärna lite om vad som ska göras..."></textarea></div>
+        <div class="form-group">
+          <label>Bifoga bilder (valfritt)</label>
+          <div class="nt-file-field"><input type="file" name="files" accept="image/*,.pdf" multiple>
+            <p class="nt-file-hint">Max 3 filer, totalt 3 MB. JPG, PNG, WEBP, HEIC eller PDF.</p>
+          </div>
+        </div>
         <button type="submit" class="nt-submit-btn">Skicka förfrågan &rarr;</button>
       </form>
     </div>
@@ -281,6 +287,7 @@
   <script src="assets/js/slider-init.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/modal.js"></script>
+  <script src="assets/js/form-utils.js"></script>
   <script src="assets/js/contact-form.js"></script>
   <script src="assets/js/cookie-consent.js"></script>
 </body>

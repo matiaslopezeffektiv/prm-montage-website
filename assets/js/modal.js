@@ -48,14 +48,21 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.textContent = 'Skickar...';
       submitBtn.disabled = true;
 
-      const data = Object.fromEntries(new FormData(form).entries());
+      const fileInput = form.querySelector('input[type="file"]');
+      const formData = new FormData(form);
+      if (fileInput && fileInput.name) formData.delete(fileInput.name);
+      const data = Object.fromEntries(formData.entries());
       data.type = 'hire';
 
-      fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+      window.PRMForm.readAttachments(fileInput)
+        .then(function (attachments) {
+          data.attachments = attachments;
+          return fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+        })
         .then(function (res) {
           return res.json().then(function (body) {
             if (!res.ok) throw new Error(body.error || 'Något gick fel.');
