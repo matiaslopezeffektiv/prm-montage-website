@@ -1,0 +1,1151 @@
+/* ============================================
+   PRM MONTAGE — Custom CSS
+   Färger: Petrolgrön #1F5C50 | Emeraldgrön #1FA968
+   (klassnamnen har prefixet "nt-" kvar från ursprungsmallen —
+   rent internt/osynligt, ingen anledning att döpa om alla filer)
+   ============================================ */
+
+/* --- CSS Variables / Brand Colors --- */
+:root {
+  --nt-navy:        #1F5C50;
+  --nt-navy-dark:   #163F37;
+  --nt-navy-light:  #2C7A6A;
+  --nt-orange:      #1FA968;
+  --nt-orange-dark: #178552;
+  --nt-orange-light:#5EE6A0;
+  --nt-white:       #ffffff;
+  --nt-gray-light:  #F3F7F6;
+  --nt-gray:        #63706D;
+  --nt-text:        #1F5C50;
+}
+
+/* Bootstrap rows with large gutters (`g-5`) are wider than their container by half
+   the gutter on each side, which produced ~9px of horizontal scroll on phones.
+   Needs to be on both `html` and `body` — `body` alone doesn't stop the viewport
+   itself from scrolling horizontally (tested in Chromium and WebKit).
+   Safe here because the sticky header is `position: fixed`, not `sticky`. */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* `px-40` is used on the header container but is defined by neither
+   main.css nor spacing.css, so the header sat flush against the viewport edge. */
+.px-40 { padding-left: 40px; padding-right: 40px; }
+@media (max-width: 767px) {
+  .px-40 { padding-left: 18px; padding-right: 18px; }
+}
+
+/* --- Override Budgeto primary/theme colors --- */
+/* `.tp-btn` is a Next Team class (not a budgeto one), so it needs its own
+   geometry as well as its colour — otherwise it renders as bare text on a block. */
+.tp-btn,
+.tp-btn-2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  background-color: var(--nt-orange) !important;
+  border-color: var(--nt-orange) !important;
+  color: var(--nt-white) !important;
+}
+.tp-btn:hover,
+.tp-btn-2:hover {
+  background-color: var(--nt-orange-dark) !important;
+  border-color: var(--nt-orange-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(244,124,32,0.30);
+}
+
+/* Secondary / outline button */
+.tp-btn-border {
+  border-color: var(--nt-navy) !important;
+  color: var(--nt-navy) !important;
+}
+.tp-btn-border:hover {
+  background-color: var(--nt-navy) !important;
+  color: var(--nt-white) !important;
+}
+
+/* --- Navbar --- */
+/* budgeto capitalises every submenu word, which is wrong for Swedish sentence case
+   ("Bemanning Vid Arbetstoppar"). */
+.tp-main-menu > nav > ul > li > .submenu li a,
+.tp-main-menu > nav > ul > li > a,
+.tpoffcanvas .tp-offcanvas-menu a { text-transform: none !important; }
+
+/* Off-canvas (mobile) menu links: navy by default, orange for active/hover */
+.tpoffcanvas .tp-offcanvas-menu nav ul li a { color: var(--nt-navy) !important; }
+.tpoffcanvas .tp-offcanvas-menu nav ul li a:hover,
+.tpoffcanvas .tp-offcanvas-menu nav ul li.active > a { color: var(--nt-orange) !important; }
+.tpoffcanvas .tpoffcanvas__contact-info ul { list-style: none; padding-left: 0; }
+.tpoffcanvas .tpoffcanvas__contact-info a { color: var(--nt-navy) !important; text-decoration: none; }
+.tpoffcanvas .tpoffcanvas__contact-info a:hover { color: var(--nt-orange) !important; }
+
+.tpheader {
+  background-color: var(--nt-white) !important;
+}
+/* budgeto's default sticky-header entrance (main.css: headerSlideDown) animates
+   margin-top from -150px to 0 over ~1s. Since the header is only ~90px tall, for
+   most of that transition it's still sliding up from fully off-screen — the
+   bottom edge appears first, reading as if the nav is cropped/cut off at the top
+   until it finishes settling. Swap it for a plain fade so it never looks clipped. */
+@keyframes ntHeaderStickyIn { from { opacity: 0; } to { opacity: 1; } }
+.tpheader.header-sticky {
+  background-color: var(--nt-white) !important;
+  box-shadow: 0 2px 20px rgba(28,46,74,0.12);
+  animation: ntHeaderStickyIn .3s ease both;
+}
+.main-menu ul li a {
+  color: var(--nt-navy) !important;
+}
+.main-menu ul li a:hover,
+.main-menu ul li.active > a {
+  color: var(--nt-orange) !important;
+}
+.tp-header-btn .tp-btn {
+  background-color: var(--nt-orange) !important;
+  border-color: var(--nt-orange) !important;
+}
+
+/* --- Megamenu (Tjänster) --- */
+.main-menu ul li.has-dropdown { position: relative; }
+.nt-megamenu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(14px);
+  width: min(920px, 92vw);
+  background: var(--nt-white);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 30px 70px rgba(28, 46, 74, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+  z-index: 999;
+}
+.main-menu ul li.has-dropdown:hover .nt-megamenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nt-megamenu__inner {
+  display: flex;
+  align-items: stretch;
+  padding: 36px 32px;
+}
+.nt-megamenu__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 28px;
+  flex: 1;
+}
+.nt-megamenu__heading {
+  display: block;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--nt-orange);
+  margin-bottom: 14px;
+}
+.nt-megamenu__col a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 8px;
+  border-radius: 8px;
+  color: var(--nt-navy);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: background .2s ease, padding-left .2s ease;
+}
+.nt-megamenu__col a i {
+  width: 16px;
+  text-align: center;
+  color: var(--nt-orange);
+  font-size: .85rem;
+  flex-shrink: 0;
+}
+.nt-megamenu__col a:hover { background: var(--nt-gray-light); padding-left: 13px; }
+.nt-megamenu__promo {
+  width: 240px;
+  flex-shrink: 0;
+  margin-left: 28px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.nt-megamenu__promo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(28, 46, 74, 0) 25%, rgba(28, 46, 74, .93) 100%);
+}
+.nt-megamenu__promo-content { position: relative; z-index: 1; padding: 20px; color: #fff; }
+.nt-megamenu__promo-content span {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--nt-orange-light);
+  font-weight: 700;
+}
+.nt-megamenu__promo-content h4 { font-size: .98rem; font-weight: 700; margin: 6px 0 14px; line-height: 1.35; color: #fff; }
+.nt-megamenu__promo .nt-megamenu__promo-btn { display: inline-flex; align-items: center; gap: 8px; color: #fff !important; text-decoration: none; font-size: .84rem; font-weight: 600; }
+.nt-megamenu__promo-btn i { font-size: .72rem; transition: transform .2s ease; }
+.nt-megamenu__promo-btn:hover i { transform: translateX(4px); }
+@media (max-width: 1399.98px) {
+  .nt-megamenu { width: min(680px, 92vw); }
+  .nt-megamenu__promo { display: none; }
+}
+
+/* --- Hero / Video Section --- */
+.nt-hero-video {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--nt-navy);
+}
+.nt-hero-video video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.nt-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 46, 74, 0.55);
+  z-index: 1;
+}
+.nt-hero-logo-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  animation: logoFadeOut 2s ease-in-out 1.5s forwards;
+}
+.nt-hero-logo-intro img {
+  width: 280px;
+  max-width: 60vw;
+}
+@keyframes logoFadeOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+.nt-hero-content {
+  /* 3-value `padding: 160px 0 100px` was zeroing left/right padding, since it
+     sits on the same element as Bootstrap's `.container` class and overrides
+     that class's own horizontal padding (both set padding-left/right, and this
+     rule loads later) — every line of hero text sat flush against the screen
+     edge on mobile. Set top/bottom only so `.container`'s padding survives,
+     plus extra breathing room below the sm breakpoint where the gutter is small. */
+  position: relative;
+  z-index: 2;
+  padding-top: 160px;
+  padding-bottom: 100px;
+  opacity: 0;
+  animation: contentFadeIn 1s ease-out 2.8s forwards;
+}
+@media (max-width: 767px) {
+  .nt-hero-content { padding-top: 120px; padding-bottom: 70px; }
+}
+@keyframes contentFadeIn {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.nt-hero-content h1 {
+  color: var(--nt-white);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.nt-hero-content h1 span {
+  color: var(--nt-orange);
+}
+.nt-hero-content p {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.15rem;
+  max-width: 560px;
+  margin-bottom: 36px;
+}
+
+/* --- Erbjudande-banner --- */
+.nt-offer-banner {
+  background-color: var(--nt-orange);
+  color: var(--nt-white);
+  padding: 18px 0;
+  text-align: center;
+}
+.nt-offer-banner p {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  /* main.css colours `p` explicitly, so white has to be restated here */
+  color: var(--nt-white);
+}
+.nt-offer-banner strong { color: var(--nt-white); }
+.nt-offer-banner span {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 10px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+/* --- Section titles --- */
+.tp-section-title,
+.tp-section-title-2 {
+  color: var(--nt-navy) !important;
+}
+.tp-section-subtitle {
+  color: var(--nt-orange) !important;
+}
+.tp-section-subtitle::before,
+.tp-section-subtitle::after {
+  background-color: var(--nt-orange) !important;
+}
+
+/* --- Service Cards --- */
+.tpservice {
+  border: 1px solid #e8ecf0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: var(--nt-white);
+}
+.tpservice:hover {
+  border-color: var(--nt-orange);
+  box-shadow: 0 8px 30px rgba(244,124,32,0.15);
+  transform: translateY(-4px);
+}
+.tpservice__icon i {
+  color: var(--nt-orange) !important;
+}
+.tpservice__title a:hover {
+  color: var(--nt-orange) !important;
+}
+.tpservice__btn a {
+  color: var(--nt-orange) !important;
+}
+.tpservice__btn a:hover {
+  color: var(--nt-navy) !important;
+}
+
+/* Populär-badge */
+.nt-badge-popular {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--nt-orange);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- USP / Varför Next Team --- */
+.nt-usp-section {
+  background-color: var(--nt-navy);
+  padding: 80px 0;
+}
+.nt-usp-section .tp-section-subtitle {
+  color: var(--nt-orange) !important;
+}
+.nt-usp-section .tp-section-title {
+  color: var(--nt-white) !important;
+}
+.nt-usp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.nt-usp-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(244,124,32,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.nt-usp-icon i {
+  color: var(--nt-orange);
+  font-size: 1.2rem;
+}
+.nt-usp-text h5 {
+  color: var(--nt-white);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.nt-usp-text p {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* --- Counter/Stats Section --- */
+.nt-counter-area {
+  background-color: var(--nt-gray-light);
+}
+.tpcounter__number {
+  color: var(--nt-navy) !important;
+}
+.tpcounter__title {
+  color: var(--nt-gray) !important;
+}
+
+/* --- CTA Section --- */
+.nt-cta-section {
+  background: linear-gradient(135deg, var(--nt-navy) 0%, var(--nt-navy-light) 100%);
+  padding: 80px 0;
+  text-align: center;
+}
+.nt-cta-section h2 {
+  color: var(--nt-white);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.nt-cta-section p {
+  color: rgba(255,255,255,0.8);
+  font-size: 1.05rem;
+  margin-bottom: 36px;
+}
+
+/* --- Footer --- */
+.tpfooter {
+  background-color: var(--nt-navy-dark) !important;
+}
+.tpfooter-widget__title {
+  color: var(--nt-white) !important;
+}
+.tpfooter-widget__title::after {
+  background-color: var(--nt-orange) !important;
+}
+.tpfooter__link { list-style: none; padding-left: 0; margin-bottom: 0; }
+.tpfooter__link li { list-style: none; margin-bottom: 10px; }
+.tpfooter__link li a {
+  color: rgba(255,255,255,0.7) !important;
+  text-decoration: none;
+}
+.tpfooter__link li a:hover {
+  color: var(--nt-orange) !important;
+}
+.tpfooter__social a {
+  background-color: rgba(255,255,255,0.1) !important;
+  color: var(--nt-white) !important;
+}
+.tpfooter__social a:hover {
+  background-color: var(--nt-orange) !important;
+}
+.tpfooter__bottom {
+  background-color: var(--nt-navy-dark) !important;
+  border-top: 1px solid rgba(255,255,255,0.1) !important;
+}
+.tpfooter__bottom p {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+/* --- Breadcrumb / Page Hero --- */
+.tpbreadcrumb {
+  background-color: var(--nt-navy) !important;
+}
+.tpbreadcrumb__title {
+  color: var(--nt-white) !important;
+}
+.tpbreadcrumb__menu span,
+.tpbreadcrumb__menu a {
+  color: rgba(255,255,255,0.7) !important;
+}
+.tpbreadcrumb__menu .current {
+  color: var(--nt-orange) !important;
+}
+
+/* --- Hire Modal --- */
+.nt-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(28,46,74,0.75);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.nt-modal-overlay.active {
+  display: flex;
+}
+.nt-modal {
+  background: var(--nt-white);
+  border-radius: 12px;
+  padding: 48px 40px;
+  max-width: 580px;
+  width: 100%;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.3s ease;
+}
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nt-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--nt-gray);
+  cursor: pointer;
+  line-height: 1;
+}
+.nt-modal__close:hover { color: var(--nt-navy); }
+.nt-modal h3 {
+  color: var(--nt-navy);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.nt-modal p.subtitle {
+  color: var(--nt-gray);
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+.nt-modal .form-group {
+  margin-bottom: 18px;
+}
+.nt-modal label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--nt-navy);
+  margin-bottom: 6px;
+  display: block;
+}
+.nt-modal input,
+.nt-modal select,
+.nt-modal textarea {
+  width: 100%;
+  border: 1.5px solid #dde2ea;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  color: var(--nt-text);
+  transition: border-color 0.2s;
+  outline: none;
+  background: white;
+}
+.nt-modal input:focus,
+.nt-modal select:focus,
+.nt-modal textarea:focus {
+  border-color: var(--nt-orange);
+}
+.nt-modal textarea { height: 100px; resize: vertical; }
+.nt-modal .nt-submit-btn {
+  width: 100%;
+  background: var(--nt-orange);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+.nt-modal .nt-submit-btn:hover {
+  background: var(--nt-orange-dark);
+}
+.nt-modal .row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 480px) {
+  .nt-modal .row-2col { grid-template-columns: 1fr; }
+  .nt-modal { padding: 32px 20px; }
+}
+
+/* ============================================================
+   BUDGETO THEME REMAP
+   main.css ships budgeto's demo palette (teal #1F3130 /
+   peach #F8D0B3) as CSS variables. Re-point those variables at
+   the Next Team brand so every budgeto component class picks up
+   our colours without per-element overrides.
+   ============================================================ */
+:root {
+  --tp-theme-primary:   #1F5C50;   /* was #1f3130 teal   -> PRM petrolgrön */
+  --tp-theme-secondary: #DCF6E9;   /* was #f8d0b3 peach  -> PRM mint-tint */
+  --tp-grey-1: #6c757d;
+  --tp-grey-2: #4a5568;
+  --tp-grey-3: #e9edf3;
+  --tp-grey-4: #F5F6F8;
+  --tp-common-white-2: #F5F6F8;
+  --tp-border-1: rgba(28, 46, 74, 0.10);
+  --tp-border-2: rgba(28, 46, 74, 0.12);
+}
+
+/* Budgeto renders CTA buttons in the primary colour; Next Team's
+   call-to-action colour is orange. Target buttons only (elements),
+   so large `tp-bg-theme-primary` section panels stay navy. */
+a[class*="tp-btn-"].tp-bg-theme-primary,
+button[class*="tp-btn-"].tp-bg-theme-primary {
+  background-color: var(--nt-orange) !important;
+  color: var(--nt-white) !important;
+}
+a[class*="tp-btn-"].tp-bg-theme-primary:hover,
+button[class*="tp-btn-"].tp-bg-theme-primary:hover {
+  background-color: var(--nt-orange-dark) !important;
+  color: var(--nt-white) !important;
+}
+/* Outlined buttons */
+a[class*="tp-btn-"].border-full-1 {
+  border-color: rgba(28, 46, 74, 0.25) !important;
+  color: var(--nt-navy) !important;
+}
+a[class*="tp-btn-"].border-full-1:hover {
+  background-color: var(--nt-navy) !important;
+  border-color: var(--nt-navy) !important;
+  color: var(--nt-white) !important;
+}
+/* Light button sitting on a navy panel */
+a[class*="tp-btn-"].tp-bg-common-white { color: var(--nt-navy) !important; }
+a[class*="tp-btn-"].tp-bg-common-white:hover {
+  background-color: var(--nt-orange) !important;
+  color: var(--nt-white) !important;
+}
+/* Soft orange-tint accent button */
+a[class*="tp-btn-"].tp-bg-theme-secondary { color: var(--nt-navy) !important; }
+a[class*="tp-btn-"].tp-bg-theme-secondary:hover {
+  background-color: var(--nt-orange) !important;
+  color: var(--nt-white) !important;
+}
+
+/* Budgeto's serif italic accent inside headings -> brand orange */
+.text-italic { color: var(--nt-orange); }
+.tp-text-common-white .text-italic,
+h2.tp-text-common-white .text-italic { color: var(--nt-orange-light); }
+
+/* Checklist ticks used across budgeto content blocks */
+.tp-about-bottom-feature ul li i,
+.tp-chose-list ul li i { color: var(--nt-orange) !important; }
+/* main.css sets `column-count: 2` on these lists; without a break rule a single
+   bullet splits across both columns mid-sentence. */
+.tp-about-bottom-feature ul li {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  line-height: 1.6;
+}
+/* Long-form checklist on a dark panel: single column, light text */
+.tp-about-bottom-feature ul.nt-check--light { column-count: 1; margin-right: 0; }
+.tp-about-bottom-feature ul.nt-check--light li { color: rgba(255,255,255,0.78); margin-bottom: 16px; }
+
+/* Counters */
+.tp-counter-wrap h2, .tp-about-4-count-item h2 { color: var(--nt-navy) !important; }
+
+/* Section eyebrow label */
+.nt-eyebrow {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--nt-orange);
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.nt-eyebrow-light { color: var(--nt-orange-light); }
+
+/* ============================================================
+   NEXT TEAM SECTION HELPERS (budgeto layouts, brand skin)
+   ============================================================ */
+
+/* Dark band used for hero/CTA/breadcrumb, painted with the
+   recoloured budgeto texture set in assets/img/ */
+.nt-dark-band { background-color: var(--nt-navy); position: relative; }
+.nt-dark-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(21,34,56,0.92) 0%, rgba(21,34,56,0.72) 55%, rgba(21,34,56,0.55) 100%);
+}
+.nt-dark-band > * { position: relative; z-index: 2; }
+
+/* Breadcrumb built on budgeto's tp-breadcrumb component */
+.tp-breadcrumb-area { background-color: var(--nt-navy); }
+.tp-breadcrumb-title { color: var(--nt-white) !important; }
+.tp-breadcrumb-dvdr ul li,
+.tp-breadcrumb-dvdr ul li a { color: rgba(255,255,255,0.72) !important; }
+.tp-breadcrumb-dvdr ul li a:hover { color: var(--nt-orange) !important; }
+.tp-breadcrumb-dvdr ul li:last-child { color: var(--nt-orange) !important; }
+
+/* Icon-led service / feature card (budgeto tp-service-8-item) */
+.nt-icon-card {
+  background: var(--nt-white);
+  border: 1px solid #e6eaf0;
+  border-radius: 12px;
+  padding: 34px 30px;
+  height: 100%;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.nt-icon-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--nt-orange);
+  box-shadow: 0 16px 40px rgba(28,46,74,0.12);
+}
+.nt-icon-card__icon {
+  width: 58px; height: 58px;
+  border-radius: 14px;
+  background: rgba(244,124,32,0.12);
+  color: var(--nt-orange);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 22px;
+  transition: background .3s ease, color .3s ease;
+}
+.nt-icon-card:hover .nt-icon-card__icon {
+  background: var(--nt-orange);
+  color: var(--nt-white);
+}
+.nt-icon-card h3, .nt-icon-card h4 {
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--nt-navy); margin-bottom: 10px;
+}
+.nt-icon-card h3 a, .nt-icon-card h4 a { color: inherit; text-decoration: none; }
+.nt-icon-card h3 a:hover, .nt-icon-card h4 a:hover { color: var(--nt-orange); }
+.nt-icon-card p { color: var(--nt-gray); font-size: .95rem; margin-bottom: 0; }
+.nt-icon-card__link {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 18px; font-weight: 600; font-size: .9rem;
+  color: var(--nt-orange); text-decoration: none;
+}
+.nt-icon-card__link:hover { color: var(--nt-navy); }
+.nt-icon-card__link i { transition: transform .25s ease; }
+.nt-icon-card__link:hover i { transform: translateX(4px); }
+
+/* Numbered step (process / how it works) */
+.nt-step {
+  position: relative;
+  background: var(--nt-white);
+  border-radius: 12px;
+  padding: 38px 30px 32px;
+  height: 100%;
+  border: 1px solid #e6eaf0;
+}
+.nt-step__num {
+  position: absolute; top: -22px; left: 30px;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--nt-orange); color: var(--nt-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.05rem;
+  box-shadow: 0 8px 20px rgba(244,124,32,0.35);
+}
+.nt-step h4 { color: var(--nt-navy); font-weight: 700; font-size: 1.1rem; margin: 14px 0 10px; }
+.nt-step p { color: var(--nt-gray); font-size: .93rem; margin: 0; }
+
+/* Media panel with image + navy wash */
+.nt-media {
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+.nt-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nt-media--tall { min-height: 420px; }
+
+/* Stat block on a dark background */
+.nt-stat h3 {
+  color: var(--nt-white);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.nt-stat h3 span { color: var(--nt-orange); }
+.nt-stat p { color: rgba(255,255,255,0.65); margin: 0; font-size: .93rem; }
+
+/* Stat block on a light background */
+.nt-stat-light h3 { color: var(--nt-navy); font-size: clamp(2rem,4vw,3rem); font-weight: 700; margin-bottom: 4px; line-height: 1; }
+.nt-stat-light h3 span { color: var(--nt-orange); }
+.nt-stat-light p { color: var(--nt-gray); margin: 0; font-size: .93rem; }
+
+/* Checklist */
+.nt-check { list-style: none; padding: 0; margin: 0; }
+.nt-check li {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 14px; color: var(--nt-gray); line-height: 1.6;
+}
+.nt-check li i { color: var(--nt-orange); margin-top: 4px; flex-shrink: 0; }
+.nt-check--light li { color: rgba(255,255,255,0.78); }
+
+/* Testimonial card */
+.nt-quote {
+  background: var(--nt-white);
+  border-radius: 14px;
+  padding: 38px 34px;
+  height: 100%;
+  border: 1px solid #e6eaf0;
+}
+.nt-quote__stars { color: #F5A623; margin-bottom: 16px; letter-spacing: 2px; }
+.nt-quote p { color: var(--nt-text); font-size: 1.02rem; line-height: 1.75; margin-bottom: 24px; }
+.nt-quote__author { display: flex; align-items: center; gap: 14px; }
+.nt-quote__avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--nt-navy); color: var(--nt-white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .95rem; flex-shrink: 0;
+}
+.nt-quote__author h6 { margin: 0; color: var(--nt-navy); font-weight: 700; font-size: .95rem; }
+.nt-quote__author span { color: var(--nt-gray); font-size: .85rem; }
+
+/* Sticky sidebar card used on service detail pages */
+.nt-side-card {
+  background: var(--nt-gray-light);
+  border-radius: 12px;
+  padding: 30px 28px;
+  margin-bottom: 22px;
+}
+.nt-side-card--navy { background: var(--nt-navy); }
+.nt-side-card--navy h5, .nt-side-card--navy h4 { color: var(--nt-white); }
+.nt-side-card h5 { color: var(--nt-navy); font-weight: 700; margin-bottom: 16px; font-size: 1.05rem; }
+.nt-side-nav { list-style: none; padding: 0; margin: 0; }
+.nt-side-nav li { margin-bottom: 2px; }
+.nt-side-nav li a {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px; border-radius: 8px;
+  background: var(--nt-white); color: var(--nt-navy);
+  text-decoration: none; font-size: .92rem; font-weight: 500;
+  transition: all .25s ease;
+}
+.nt-side-nav li a i { color: var(--nt-orange); font-size: .8rem; transition: transform .25s ease; }
+.nt-side-nav li a:hover { background: var(--nt-navy); color: var(--nt-white); }
+.nt-side-nav li a:hover i { color: var(--nt-orange); transform: translateX(3px); }
+.nt-side-nav li.is-active a { background: var(--nt-navy); color: var(--nt-white); }
+
+/* Highlight / offer box */
+.nt-highlight {
+  background: var(--nt-gray-light);
+  border-left: 4px solid var(--nt-orange);
+  border-radius: 10px;
+  padding: 28px 30px;
+}
+.nt-highlight h5 { color: var(--nt-navy); font-weight: 700; margin-bottom: 8px; }
+.nt-highlight p { color: var(--nt-gray); margin: 0; }
+
+/* Accordion (FAQ) — brand skin over bootstrap */
+.nt-accordion .accordion-item {
+  border: 1px solid #e6eaf0;
+  border-radius: 10px !important;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: var(--nt-white);
+}
+.nt-accordion .accordion-button {
+  font-weight: 600; color: var(--nt-navy);
+  background: var(--nt-white); box-shadow: none;
+  padding: 20px 24px; font-size: 1rem;
+}
+.nt-accordion .accordion-button:not(.collapsed) {
+  color: var(--nt-orange);
+  background: var(--nt-gray-light);
+}
+.nt-accordion .accordion-button:focus { box-shadow: none; border-color: transparent; }
+.nt-accordion .accordion-body { color: var(--nt-gray); padding: 4px 24px 22px; line-height: 1.75; }
+
+/* Logo strip / trust row */
+.nt-trust-row {
+  display: flex; flex-wrap: wrap; gap: 14px 34px;
+  align-items: center;
+}
+.nt-trust-row span {
+  display: inline-flex; align-items: center; gap: 9px;
+  color: rgba(255,255,255,0.8); font-size: .92rem; font-weight: 500;
+}
+.nt-trust-row i { color: var(--nt-orange); }
+
+/* Decorative budgeto shape overlay */
+.nt-shape {
+  position: absolute; pointer-events: none; opacity: .10; z-index: 1;
+}
+.nt-shape--tr { top: 40px; right: 40px; width: 150px; }
+.nt-shape--br { bottom: 30px; right: 6%; width: 190px; }
+
+/* Section padding helpers */
+.nt-sec    { padding: 100px 0; }
+.nt-sec-sm { padding: 70px 0; }
+@media (max-width: 767px) {
+  .nt-sec { padding: 64px 0; }
+  .nt-sec-sm { padding: 48px 0; }
+  .nt-icon-card { padding: 26px 22px; }
+}
+
+/* --- Misc --- */
+.tp-theme-color { color: var(--nt-orange) !important; }
+.tp-theme-bg { background-color: var(--nt-orange) !important; }
+.tp-navy-bg { background-color: var(--nt-navy) !important; }
+a { color: var(--nt-orange); }
+a:hover { color: var(--nt-orange-dark); }
+
+/* Back to top */
+.back-to-top-btn {
+  background-color: var(--nt-orange) !important;
+}
+
+/* Preloader */
+.preloader { background-color: var(--nt-navy) !important; }
+
+/* ============================================================
+   PRM MONTAGE — NYA KOMPONENTER
+   ============================================================ */
+
+/* --- Static hero (ersätter videohero: snabbare LCP, formulär above the fold) --- */
+.nt-hero-static {
+  position: relative;
+  padding-top: 170px;
+  padding-bottom: 90px;
+  background: linear-gradient(120deg, var(--nt-navy-dark) 0%, var(--nt-navy) 55%, var(--nt-navy-light) 100%);
+  overflow: hidden;
+}
+.nt-hero-static::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.07) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  opacity: .5;
+}
+.nt-hero-static > .container { position: relative; z-index: 2; }
+@media (max-width: 991px) {
+  .nt-hero-static { padding-top: 140px; padding-bottom: 60px; }
+}
+.nt-hero-static h1 {
+  color: var(--nt-white);
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.18;
+  margin-bottom: 20px;
+}
+.nt-hero-static h1 span { color: var(--nt-orange-light); }
+.nt-hero-static p.nt-hero-lead {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.1rem;
+  max-width: 540px;
+  margin-bottom: 28px;
+}
+
+/* Quick-quote form card embedded directly in the hero */
+.nt-hero-form-card {
+  background: var(--nt-white);
+  border-radius: 16px;
+  padding: 34px 30px;
+  box-shadow: 0 30px 70px rgba(9,26,22,0.35);
+}
+.nt-hero-form-card h3 {
+  color: var(--nt-navy);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.nt-hero-form-card .nt-form-sub {
+  color: var(--nt-gray);
+  font-size: .92rem;
+  margin-bottom: 20px;
+}
+
+/* Shared form-field styling — used in hero card, kontakt-sidan och modalen */
+.nt-form-field { margin-bottom: 14px; }
+.nt-form-field label {
+  font-size: .85rem; font-weight: 600; color: var(--nt-navy);
+  margin-bottom: 6px; display: block;
+}
+.nt-form-field input,
+.nt-form-field select,
+.nt-form-field textarea {
+  width: 100%;
+  border: 1.5px solid #dde6e3;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: .95rem;
+  color: var(--nt-text);
+  outline: none;
+  background: var(--nt-white);
+  transition: border-color .2s;
+}
+.nt-form-field input:focus,
+.nt-form-field select:focus,
+.nt-form-field textarea:focus { border-color: var(--nt-orange); }
+.nt-form-field textarea { min-height: 90px; resize: vertical; }
+.nt-form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .nt-form-row2 { grid-template-columns: 1fr; } }
+.nt-form-submit {
+  width: 100%;
+  background: var(--nt-orange);
+  color: var(--nt-white);
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.nt-form-submit:hover { background: var(--nt-orange-dark); transform: translateY(-1px); }
+.nt-form-fineprint { font-size: .78rem; color: var(--nt-gray); margin-top: 12px; text-align: center; }
+.nt-form-message { display: none; padding: 12px 14px; border-radius: 8px; font-size: .9rem; margin-bottom: 14px; }
+
+/* Trust row with star rating (hero + footer) */
+.nt-rating-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 30px;
+  padding: 8px 16px 8px 10px;
+  margin-bottom: 22px;
+}
+.nt-rating-badge .stars { color: #FFC94D; font-size: .9rem; letter-spacing: 1px; }
+.nt-rating-badge span.txt { color: rgba(255,255,255,0.88); font-size: .85rem; font-weight: 600; }
+
+/* --- Testimonial slider --- */
+.nt-testimonial-slide { padding-bottom: 8px; }
+.nt-testimonial-slide .swiper-slide { height: auto; }
+.nt-quote__source {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .78rem; color: var(--nt-gray); margin-top: 10px;
+}
+.nt-quote__source i { color: #4285F4; }
+.nt-testimonial-nav { display: flex; align-items: center; gap: 14px; justify-content: center; margin-top: 34px; }
+.nt-testimonial-prev, .nt-testimonial-next {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1.5px solid #dde6e3; background: var(--nt-white);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--nt-navy); cursor: pointer; transition: all .2s;
+}
+.nt-testimonial-prev:hover, .nt-testimonial-next:hover {
+  background: var(--nt-orange); border-color: var(--nt-orange); color: var(--nt-white);
+}
+
+/* --- Simple dropdown (Områden) --- */
+.nt-simple-dropdown-wrap { position: relative; }
+.nt-simple-dropdown {
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  min-width: 220px;
+  background: var(--nt-white);
+  border-radius: 12px;
+  box-shadow: 0 24px 55px rgba(28,46,74,0.16);
+  padding: 10px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  z-index: 999;
+  list-style: none;
+}
+.nt-simple-dropdown-wrap:hover .nt-simple-dropdown {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0);
+}
+.nt-simple-dropdown li a {
+  display: block; padding: 10px 14px; border-radius: 8px;
+  color: var(--nt-navy) !important; text-decoration: none; font-size: .92rem; font-weight: 500;
+}
+.nt-simple-dropdown li a:hover { background: var(--nt-gray-light); color: var(--nt-orange) !important; }
+
+/* --- Project gallery (portfolio) --- */
+.nt-gallery-filter { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+.nt-gallery-filter button {
+  border: 1.5px solid #dde6e3; background: var(--nt-white); color: var(--nt-navy);
+  padding: 9px 20px; border-radius: 30px; font-size: .88rem; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.nt-gallery-filter button:hover { border-color: var(--nt-orange); color: var(--nt-orange); }
+.nt-gallery-filter button.is-active { background: var(--nt-navy); border-color: var(--nt-navy); color: var(--nt-white); }
+.nt-gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 991px) { .nt-gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px) { .nt-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+.nt-gallery-item {
+  position: relative; border-radius: 12px; overflow: hidden;
+  aspect-ratio: 4/3; display: block; cursor: pointer;
+}
+.nt-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+.nt-gallery-item:hover img { transform: scale(1.07); }
+.nt-gallery-item::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(22,63,55,0.75) 100%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.nt-gallery-item:hover::after { opacity: 1; }
+.nt-gallery-item span {
+  position: absolute; left: 14px; bottom: 12px; color: #fff;
+  font-size: .82rem; font-weight: 600; opacity: 0; transform: translateY(6px);
+  transition: all .3s ease; z-index: 2;
+}
+.nt-gallery-item:hover span { opacity: 1; transform: translateY(0); }
+.nt-gallery-item[hidden] { display: none; }
+
+/* --- Price table (t.ex. elektriker-sidan) --- */
+.nt-price-table { width: 100%; border-collapse: collapse; }
+.nt-price-table th {
+  text-align: left; color: var(--nt-navy); font-size: .82rem; text-transform: uppercase;
+  letter-spacing: .04em; padding: 12px 16px; border-bottom: 2px solid #e6eaf0;
+}
+.nt-price-table td { padding: 16px; border-bottom: 1px solid #e6eaf0; color: var(--nt-gray); }
+.nt-price-table td:last-child { text-align: right; color: var(--nt-navy); font-weight: 700; white-space: nowrap; }
+.nt-price-table tr:last-child td { border-bottom: none; }
+.nt-price-note { font-size: .82rem; color: var(--nt-gray); margin-top: 14px; }
+
+/* --- Sticky mobile CTA bar --- */
+.nt-mobile-cta-bar {
+  display: none;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 998;
+  background: var(--nt-white);
+  box-shadow: 0 -8px 30px rgba(22,63,55,0.18);
+  padding: 10px 14px;
+  gap: 10px;
+}
+@media (max-width: 767px) {
+  .nt-mobile-cta-bar { display: flex; }
+  body { padding-bottom: 66px; }
+}
+.nt-mobile-cta-bar a {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px; border-radius: 10px; font-weight: 700; font-size: .92rem; text-decoration: none;
+}
+.nt-mobile-cta-bar a.call { background: var(--nt-gray-light); color: var(--nt-navy) !important; }
+.nt-mobile-cta-bar a.quote { background: var(--nt-orange); color: var(--nt-white) !important; }
+
+/* --- Area (ort) hero badge + FAQ intent chips --- */
+.nt-area-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--nt-gray-light); border-radius: 30px; padding: 8px 16px;
+  font-size: .85rem; font-weight: 600; color: var(--nt-navy); margin: 0 8px 8px 0;
+}
+.nt-area-chip i { color: var(--nt-orange); }
+
+/* --- Map embed frame --- */
+.nt-map-frame { border: 0; width: 100%; height: 340px; border-radius: 14px; display: block; }

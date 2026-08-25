@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/offert", "destination": "/kontakt", "permanent": true },
+    { "source": "/kontakta-oss", "destination": "/kontakt", "permanent": true },
+    { "source": "/tjanster/:path*", "destination": "/tjanster", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
