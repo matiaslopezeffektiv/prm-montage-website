@@ -1351,3 +1351,25 @@ a:hover { color: var(--nt-orange-dark); }
   overflow: hidden;
 }
 .nt-instagram-embed iframe { display: block; min-height: 420px; }
+
+/* Följ oss-knappar (Instagram/Facebook CTA) */
+.nt-social-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 16px 32px;
+  border-radius: 26px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background .3s ease, color .3s ease, border-color .3s ease, opacity .3s ease;
+}
+.nt-social-cta-btn i { font-size: 1.05rem; line-height: 1; flex-shrink: 0; }
+.nt-social-cta-btn--solid { background: var(--nt-orange); color: var(--nt-white); }
+.nt-social-cta-btn--solid:hover { background: var(--nt-orange-dark); color: var(--nt-white); }
+.nt-social-cta-btn--outline { background: transparent; color: var(--nt-navy); border: 1px solid #d9e1df; }
+.nt-social-cta-btn--outline:hover { background: var(--nt-gray-light); color: var(--nt-navy); }
+@media (max-width: 575.98px) {
+  .nt-social-cta-btn { padding: 13px 22px; font-size: .92rem; gap: 8px; }
+  .nt-social-cta-btn i { font-size: .95rem; }
+}
