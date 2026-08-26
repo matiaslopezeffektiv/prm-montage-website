@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
     area: 'Ny förfrågan från ortssida',
   };
   const heading = headings[type] || headings.contact;
-  const subject = (type === 'jour' ? 'JOUR: ' : '') + 'Ny förfrågan via pro-montage.se';
+  const subject = (type === 'jour' ? 'JOUR: ' : '') + 'Ny förfrågan via prmmontage.se';
 
   const html = `
     <h2>${heading}</h2>
