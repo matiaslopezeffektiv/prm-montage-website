@@ -1,13 +1,25 @@
 /* ============================================
    PRM MONTAGE — Delad hjälpfunktion för filbilagor
    Används av contact-form.js (.nt-ajax-form) och modal.js (#hire-form)
+
+   Filer laddas upp direkt från webbläsaren till Vercel Blob (se api/blob-upload.js)
+   istället för att base64-kodas in i formulärets JSON-body. Det gör att vi kan tillåta
+   betydligt större bilagor än Vercels 4,5 MB-gräns för serverless-funktioners request-body
+   (som annars slår till fort när base64 lägger på ~33% overhead).
    ============================================ */
 
 window.PRMForm = {
   MAX_FILES: 3,
-  // Vercel's request body caps out around 4.5 MB and base64 adds ~33% on top of the raw
-  // bytes, so keep the raw file total well under that (matches the server-side limit).
-  MAX_TOTAL_BYTES: 3 * 1024 * 1024,
+  MAX_TOTAL_BYTES: 10 * 1024 * 1024,
+
+  _uploadModulePromise: null,
+  _loadUploadFn: function () {
+    if (!window.PRMForm._uploadModulePromise) {
+      window.PRMForm._uploadModulePromise = import('https://esm.sh/@vercel/blob/client')
+        .then(function (mod) { return mod.upload; });
+    }
+    return window.PRMForm._uploadModulePromise;
+  },
 
   readAttachments: function (fileInput) {
     var PRMForm = window.PRMForm;
@@ -19,22 +31,27 @@ window.PRMForm = {
       var files = Array.prototype.slice.call(fileInput.files).slice(0, PRMForm.MAX_FILES);
       var totalBytes = files.reduce(function (sum, f) { return sum + f.size; }, 0);
       if (totalBytes > PRMForm.MAX_TOTAL_BYTES) {
-        reject(new Error('Bilagorna är för stora (max 4 MB totalt). Ta bort någon fil och försök igen.'));
+        reject(new Error('Bilagorna är för stora (max 10 MB totalt). Ta bort någon fil och försök igen.'));
         return;
       }
-      Promise.all(
-        files.map(function (file) {
-          return new Promise(function (res, rej) {
-            var reader = new FileReader();
-            reader.onload = function () {
-              var base64 = String(reader.result).split(',')[1] || '';
-              res({ filename: file.name, contentType: file.type, content: base64 });
-            };
-            reader.onerror = function () { rej(new Error('Kunde inte läsa filen ' + file.name + '.')); };
-            reader.readAsDataURL(file);
-          });
+
+      PRMForm._loadUploadFn()
+        .then(function (upload) {
+          return Promise.all(
+            files.map(function (file) {
+              return upload(file.name, file, {
+                access: 'public',
+                handleUploadUrl: '/api/blob-upload',
+              }).then(function (blob) {
+                return { filename: file.name, url: blob.url };
+              });
+            })
+          );
         })
-      ).then(resolve).catch(reject);
+        .then(resolve)
+        .catch(function () {
+          reject(new Error('Kunde inte ladda upp bilagorna. Försök igen eller skicka utan bilagor.'));
+        });
     });
   },
 };

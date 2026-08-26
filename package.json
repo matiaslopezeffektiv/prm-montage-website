@@ -4,6 +4,7 @@
   "private": true,
   "description": "PRM Montage AB — bygg, renovering, VVS, el och altanbygge i Stockholm",
   "dependencies": {
-    "resend": "latest"
+    "resend": "latest",
+    "@vercel/blob": "latest"
   }
 }

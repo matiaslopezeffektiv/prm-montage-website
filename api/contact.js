@@ -20,10 +20,15 @@ module.exports = async (req, res) => {
   }
 
   const MAX_FILES = 3;
-  // Vercel's serverless request body is capped around 4.5 MB total, and base64 adds ~33%
-  // overhead on top of the raw file bytes — cap the raw size well under that ceiling.
-  const MAX_TOTAL_BYTES = 3 * 1024 * 1024;
-  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'application/pdf'];
+  // Filerna laddas upp direkt från webbläsaren till Vercel Blob (se api/blob-upload.js) och
+  // förbi serverless-funktionens 4,5 MB request-body-gräns — den här funktionen får bara
+  // tillbaka blob-URL:er (korta strängar), inte filinnehållet. Den riktiga storleksgränsen
+  // (10 MB per fil) sätts vid tokengenereringen i api/blob-upload.js; här kontrolleras bara
+  // den sammanlagda storleken en gång till som ett extra skyddslager.
+  const MAX_TOTAL_BYTES = 10 * 1024 * 1024;
+  // Endast blobs från vår egen publika store accepteras, så formuläret inte kan missbrukas
+  // som en öppen relä för att få Resend att hämta godtyckliga externa URL:er.
+  const BLOB_HOST_SUFFIX = '.public.blob.vercel-storage.com';
 
   let safeAttachments = [];
   if (Array.isArray(attachments) && attachments.length) {
@@ -31,19 +36,37 @@ module.exports = async (req, res) => {
       res.status(400).json({ error: `Max ${MAX_FILES} bilagor per förfrågan.` });
       return;
     }
-    let totalBytes = 0;
     for (const file of attachments) {
-      if (!file || typeof file.content !== 'string' || !file.filename) continue;
-      if (file.contentType && !ALLOWED_TYPES.includes(file.contentType)) {
-        res.status(400).json({ error: 'Endast bilder (JPG/PNG/WEBP/HEIC) eller PDF kan bifogas.' });
+      if (!file || typeof file.url !== 'string' || !file.filename) continue;
+      let parsed;
+      try {
+        parsed = new URL(file.url);
+      } catch {
+        res.status(400).json({ error: 'Ogiltig bilaga.' });
         return;
       }
-      totalBytes += Math.ceil((file.content.length * 3) / 4);
+      if (parsed.protocol !== 'https:' || !parsed.hostname.endsWith(BLOB_HOST_SUFFIX)) {
+        res.status(400).json({ error: 'Ogiltig bilaga.' });
+        return;
+      }
+      safeAttachments.push({ filename: file.filename, url: file.url });
+    }
+
+    if (safeAttachments.length) {
+      let totalBytes = 0;
+      for (const file of safeAttachments) {
+        try {
+          const head = await fetch(file.url, { method: 'HEAD' });
+          totalBytes += Number(head.headers.get('content-length') || 0);
+        } catch {
+          res.status(400).json({ error: 'Kunde inte verifiera en bilaga. Försök igen.' });
+          return;
+        }
+      }
       if (totalBytes > MAX_TOTAL_BYTES) {
-        res.status(400).json({ error: 'Bilagorna är för stora (max 4 MB totalt).' });
+        res.status(400).json({ error: 'Bilagorna är för stora (max 10 MB totalt).' });
         return;
       }
-      safeAttachments.push({ filename: file.filename, content: file.content });
     }
   }
 
@@ -80,7 +103,9 @@ module.exports = async (req, res) => {
       reply_to: email || undefined,
       subject,
       html,
-      attachments: safeAttachments.length ? safeAttachments : undefined,
+      attachments: safeAttachments.length
+        ? safeAttachments.map((f) => ({ filename: f.filename, path: f.url }))
+        : undefined,
     });
 
     if (error) {
