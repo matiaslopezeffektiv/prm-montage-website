@@ -6,10 +6,10 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'i
 // 4,5 MB request-body-gräns, så gränsen här är den riktiga filstorleken (inte base64).
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
-// Måste vara en .mjs-fil (ESM) — Vercel ger CommonJS-filer alltid den klassiska
-// (req, res)-signaturen oavsett hur många parametrar den exporterade funktionen tar, medan
-// ESM-filer får den Web-standard Request/Response-signatur som handleUpload() förväntar sig.
-export default async function handler(request) {
+// Måste vara en .mjs-fil (ESM) och exportera en namngiven HTTP-metod-funktion (POST) —
+// Vercel ger annars (default export, CommonJS, etc) den klassiska Node (req, res)-
+// signaturen, medan handleUpload() kräver ett Web-standard Request-objekt.
+export async function POST(request) {
   const body = await request.json();
 
   try {
