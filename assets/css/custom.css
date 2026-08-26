@@ -1256,3 +1256,97 @@ a:hover { color: var(--nt-orange-dark); }
 }
 .nt-file-field .nt-file-hint { font-size: .78rem; color: var(--nt-gray); margin-top: 6px; }
 .nt-file-list { margin-top: 8px; font-size: .82rem; color: var(--nt-navy); }
+
+/* ============================================================
+   SOCIALA MEDIER — hero, nav, footer
+   ============================================================ */
+
+/* Hero: centrerat på mobil, vänsterställt från lg och uppåt */
+.nt-hero-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (min-width: 992px) {
+  .nt-hero-social { justify-content: flex-start; }
+}
+.nt-hero-social a {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--nt-white) !important;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem;
+  transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+.nt-hero-social a:hover { background: var(--nt-orange); border-color: var(--nt-orange); transform: translateY(-2px); }
+
+/* Footer "Följ oss" */
+.nt-footer-social-label {
+  color: rgba(255,255,255,0.6);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  margin: 18px 0 10px;
+}
+.nt-footer-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nt-footer-social a {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  color: var(--nt-white) !important;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .92rem;
+  transition: background .2s ease, transform .2s ease;
+}
+.nt-footer-social a:hover { background: var(--nt-orange); transform: translateY(-2px); }
+
+/* Header (desktop, endast riktigt breda skärmar för att inte tränga ihop navigationen) + offcanvas */
+.nt-nav-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nt-nav-social a {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--nt-gray-light);
+  color: var(--nt-navy) !important;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .82rem;
+  transition: background .2s ease, color .2s ease;
+}
+.nt-nav-social a:hover { background: var(--nt-orange); color: var(--nt-white) !important; }
+.nt-offcanvas-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.nt-offcanvas-social a {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--nt-gray-light);
+  color: var(--nt-navy) !important;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem;
+  transition: background .2s ease, color .2s ease;
+}
+.nt-offcanvas-social a:hover { background: var(--nt-orange); color: var(--nt-white) !important; }
+
+/* Instagram-feed sektion (mirror-app embed) */
+.nt-instagram-embed {
+  background: var(--nt-white);
+  border-radius: 16px;
+  border: 1px solid #e6eaf0;
+  padding: 8px;
+  overflow: hidden;
+}
+.nt-instagram-embed iframe { display: block; min-height: 420px; }
