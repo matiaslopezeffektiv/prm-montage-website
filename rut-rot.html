@@ -48,12 +48,22 @@
 </head><body class="tp-bg-common-white-2">
 
   <div class="preloader"><div class="loading"></div></div>
+  <script>
+    (function () {
+      function hidePreloader() {
+        var el = document.querySelector('.preloader');
+        if (el) el.style.display = 'none';
+      }
+      window.addEventListener('load', hidePreloader);
+      setTimeout(hidePreloader, 2500);
+    })();
+  </script>
   <div class="back-to-top-wrapper"><button id="back_to_top" type="button" class="back-to-top-btn"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M11 6L6 1L1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
 
   <div class="tpoffcanvas-area">
     <div class="tpoffcanvas">
       <div class="tpoffcanvas__close-btn"><button class="close-btn" aria-label="Stäng meny"><i class="fal fa-times"></i></button></div>
-      <div class="tpoffcanvas__logo mb-30"><a href="/"><img src="assets/img/logo/logo-color.png" alt="PRM Montage" style="height:40px;width:auto;"></a></div>
+      <div class="tpoffcanvas__logo mb-30"><a href="/"><img src="assets/img/logo/logo-color.png" alt="PRM Montage" width="82" height="40" style="height:40px;width:auto;"></a></div>
       <div class="tp-offcanvas-menu mb-30"><nav></nav></div>
       <div class="tpoffcanvas__contact-info"><ul><li><i class="fas fa-phone" style="color:#1FA968;margin-right:10px;"></i><a href="tel:+46852027977">08-520 279 77</a></li><li class="mt-10"><i class="fas fa-envelope" style="color:#1FA968;margin-right:10px;"></i><a href="mailto:info@pro-montage.se">info@pro-montage.se</a></li></ul></div>
       <div class="mt-30"><a href="#" class="tp-btn hire-btn" style="padding:12px 26px;">Begär offert</a></div>
@@ -64,7 +74,7 @@
   <header class="tpheader tp-header-height" id="header-sticky">
     <div class="container-fluid px-40">
       <div class="row align-items-center">
-        <div class="col-xl-2 col-lg-3 col-6"><div class="tplogo"><a href="/"><img src="assets/img/logo/logo-color.png" alt="PRM Montage" style="height:44px;width:auto;"></a></div></div>
+        <div class="col-xl-2 col-lg-3 col-6"><div class="tplogo"><a href="/"><img src="assets/img/logo/logo-color.png" alt="PRM Montage" width="90" height="44" style="height:44px;width:auto;"></a></div></div>
         <div class="col-xl-7 col-lg-7 d-none d-lg-block">
           <div class="tp-main-menu main-menu d-flex justify-content-center">
             <nav class="tp-mobile-menu-active">
@@ -193,12 +203,12 @@
         <div class="col-xl-4 col-lg-4 col-md-6">
           <div class="tpfooter-widget mb-40">
             <div class="tpfooter__logo mb-25">
-              <a href="/"><img src="assets/img/logo/logo-white.png" alt="PRM Montage" style="height:46px;width:auto;"></a>
+              <a href="/"><img src="assets/img/logo/logo-white.png" alt="PRM Montage" width="94" height="46" style="height:46px;width:auto;"></a>
             </div>
             <p style="color:rgba(255,255,255,0.65);line-height:1.7;">PRM Montage AB — bygg, renovering, VVS, el och altanbygge i Stockholm. Egna hantverkare, fast pris.</p>
             <div class="mt-20" style="color:rgba(255,255,255,0.6);font-size:0.88rem;">
               <p style="margin-bottom:6px;color:rgba(255,255,255,0.6);"><i class="fas fa-shield-check" style="color:#1FA968;margin-right:8px;"></i>F-skatt &amp; försäkrat</p>
-              <p style="margin-bottom:6px;color:rgba(255,255,255,0.6);"><i class="fas fa-star" style="color:#1FA968;margin-right:8px;"></i>4,5+ i betyg på Google</p>
+              <p style="margin-bottom:6px;color:rgba(255,255,255,0.6);"><i class="fas fa-star" style="color:#1FA968;margin-right:8px;"></i><a href="https://www.google.com/maps/search/?api=1&query=PRM+Montage+AB+Industriv%C3%A4gen+23+Solna" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.6);text-decoration:underline;">4,5+ i betyg på Google</a></p>
             </div>
           </div>
         </div>
