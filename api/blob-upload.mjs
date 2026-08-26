@@ -1,4 +1,4 @@
-const { handleUpload } = require('@vercel/blob/client');
+import { handleUpload } from '@vercel/blob/client';
 
 // Samma tillåtna filtyper som tidigare (bas64-baserade) bilage-flödet i api/contact.js.
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'application/pdf'];
@@ -6,7 +6,10 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'i
 // 4,5 MB request-body-gräns, så gränsen här är den riktiga filstorleken (inte base64).
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
-module.exports = async function handler(request) {
+// Måste vara en .mjs-fil (ESM) — Vercel ger CommonJS-filer alltid den klassiska
+// (req, res)-signaturen oavsett hur många parametrar den exporterade funktionen tar, medan
+// ESM-filer får den Web-standard Request/Response-signatur som handleUpload() förväntar sig.
+export default async function handler(request) {
   const body = await request.json();
 
   try {
@@ -31,4 +34,4 @@ module.exports = async function handler(request) {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-};
+}
