@@ -15,6 +15,9 @@
   <url><loc>https://prmmontage.se/danderyd</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://prmmontage.se/bromma</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://prmmontage.se/tacby</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://prmmontage.se/uppsala</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://prmmontage.se/lidingo</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://prmmontage.se/sodermalm</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <url><loc>https://prmmontage.se/koksmontering-solna</loc><lastmod>2026-08-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://prmmontage.se/koksmontering-sundbyberg</loc><lastmod>2026-08-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -26,6 +29,12 @@
   <url><loc>https://prmmontage.se/ikea-koksmontering-danderyd</loc><lastmod>2026-08-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://prmmontage.se/ikea-koksmontering-bromma</loc><lastmod>2026-08-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://prmmontage.se/ikea-koksmontering-tacby</loc><lastmod>2026-08-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://prmmontage.se/koksmontering-uppsala</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://prmmontage.se/koksmontering-lidingo</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://prmmontage.se/koksmontering-sodermalm</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://prmmontage.se/ikea-koksmontering-uppsala</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://prmmontage.se/ikea-koksmontering-lidingo</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://prmmontage.se/ikea-koksmontering-sodermalm</loc><lastmod>2026-08-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <url><loc>https://prmmontage.se/om-oss</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://prmmontage.se/projekt</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
