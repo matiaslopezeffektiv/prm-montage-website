@@ -1014,6 +1014,8 @@ a:hover { color: var(--nt-orange-dark); }
 .nt-form-field textarea { min-height: 90px; resize: vertical; }
 .nt-form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 480px) { .nt-form-row2 { grid-template-columns: 1fr; } }
+.nt-form-row3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+@media (max-width: 650px) { .nt-form-row3 { grid-template-columns: 1fr; } }
 .nt-form-submit {
   width: 100%;
   background: var(--nt-orange);

@@ -19,9 +19,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // Hero-formuläret (type "offert") saknar adressfält med flit för att hålla den
-  // låg-friktionsupplevelsen ovanför vikningen — kravet gäller övriga formulär.
-  if (type !== 'offert' && (!address || !postalCode || !city)) {
+  if (!address || !postalCode || !city) {
     res.status(400).json({ error: 'Adress, postnummer och stad krävs.' });
     return;
   }
