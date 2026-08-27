@@ -915,7 +915,11 @@
         </div>
         <div class="row-2col">
           <div class="form-group"><label>E-postadress</label><input type="email" name="email" placeholder="anna@exempel.se"></div>
-          <div class="form-group"><label>Adress</label><input type="text" name="address" placeholder="Gata, ort"></div>
+          <div class="form-group"><label>Adress *</label><input type="text" name="address" required placeholder="Gatuadress"></div>
+        </div>
+        <div class="row-2col">
+          <div class="form-group"><label>Postnummer *</label><input type="text" name="postalCode" required inputmode="numeric" placeholder="123 45"></div>
+          <div class="form-group"><label>Stad *</label><input type="text" name="city" required placeholder="T.ex. Solna"></div>
         </div>
         <div class="form-group">
           <label>Vilken tjänst gäller det? *</label>

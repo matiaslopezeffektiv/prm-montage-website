@@ -12,10 +12,17 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const { name, email, phone, service, message, address, area, type, attachments } = req.body || {};
+  const { name, email, phone, service, message, address, postalCode, city, area, type, attachments } = req.body || {};
 
   if (!name || !phone) {
     res.status(400).json({ error: 'Namn och telefonnummer krävs.' });
+    return;
+  }
+
+  // Hero-formuläret (type "offert") saknar adressfält med flit för att hålla den
+  // låg-friktionsupplevelsen ovanför vikningen — kravet gäller övriga formulär.
+  if (type !== 'offert' && (!address || !postalCode || !city)) {
+    res.status(400).json({ error: 'Adress, postnummer och stad krävs.' });
     return;
   }
 
@@ -85,7 +92,7 @@ module.exports = async (req, res) => {
     <p><strong>Telefon:</strong> ${escapeHtml(phone)}</p>
     ${email ? `<p><strong>E-post:</strong> ${escapeHtml(email)}</p>` : ''}
     ${service ? `<p><strong>Tjänst:</strong> ${escapeHtml(service)}</p>` : ''}
-    ${address ? `<p><strong>Adress:</strong> ${escapeHtml(address)}</p>` : ''}
+    ${address ? `<p><strong>Adress:</strong> ${escapeHtml(address)}${postalCode ? ', ' + escapeHtml(postalCode) : ''}${city ? ' ' + escapeHtml(city) : ''}</p>` : ''}
     ${area ? `<p><strong>Område:</strong> ${escapeHtml(area)}</p>` : ''}
     ${message ? `<p><strong>Meddelande:</strong><br>${escapeHtml(message).replace(/\n/g, '<br>')}</p>` : ''}
     ${safeAttachments.length ? `<p><strong>Bilagor:</strong> ${safeAttachments.map((f) => escapeHtml(f.filename)).join(', ')}</p>` : ''}
