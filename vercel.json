@@ -4,7 +4,19 @@
   "redirects": [
     { "source": "/offert", "destination": "/kontakt", "permanent": true },
     { "source": "/kontakta-oss", "destination": "/kontakt", "permanent": true },
-    { "source": "/tjanster/:path+", "destination": "/tjanster", "permanent": true }
+    { "source": "/tjanster/:path+", "destination": "/tjanster", "permanent": true },
+    { "source": "/produkt/installera-eluttag-till-tvattmaskin-diskmaskin", "destination": "/eluttag-tvattmaskin-diskmaskin", "permanent": true },
+    { "source": "/produkt/installera-eluttag-i-badrum", "destination": "/eluttag-badrum", "permanent": true },
+    { "source": "/produkt/montera-duschhorn", "destination": "/montera-duschvagg", "permanent": true },
+    { "source": "/produkt/byta-blandare", "destination": "/byta-blandare", "permanent": true },
+    { "source": "/produkt/installera-diskmaskin", "destination": "/installera-diskmaskin", "permanent": true },
+    { "source": "/produkt/byta-toalettstol", "destination": "/byta-toalettstol", "permanent": true },
+    { "source": "/produkt/installera-tvattmaskin", "destination": "/installera-tvattmaskin", "permanent": true },
+    { "source": "/produkt/laga-lackande-blandare", "destination": "/laga-lackande-blandare", "permanent": true },
+    { "source": "/produkt/byta-handfat-kommod", "destination": "/byta-handfat-kommod", "permanent": true },
+    { "source": "/produkt/montera-tv-pa-vagg", "destination": "/montera-tv-pa-vagg", "permanent": true },
+    { "source": "/produkt", "destination": "/tjanster", "permanent": true },
+    { "source": "/produkt/:path*", "destination": "/tjanster", "permanent": true }
   ],
   "headers": [
     {
