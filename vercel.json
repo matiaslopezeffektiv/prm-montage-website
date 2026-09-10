@@ -2,36 +2,312 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/offert", "destination": "/kontakt", "permanent": true },
-    { "source": "/kontakta-oss", "destination": "/kontakt", "permanent": true },
-    { "source": "/tjanster/:path+", "destination": "/tjanster", "permanent": true },
-    { "source": "/produkt/installera-eluttag-till-tvattmaskin-diskmaskin", "destination": "/eluttag-tvattmaskin-diskmaskin", "permanent": true },
-    { "source": "/produkt/installera-eluttag-i-badrum", "destination": "/eluttag-badrum", "permanent": true },
-    { "source": "/produkt/montera-duschhorn", "destination": "/montera-duschvagg", "permanent": true },
-    { "source": "/produkt/byta-blandare", "destination": "/byta-blandare", "permanent": true },
-    { "source": "/produkt/installera-diskmaskin", "destination": "/installera-diskmaskin", "permanent": true },
-    { "source": "/produkt/byta-toalettstol", "destination": "/byta-toalettstol", "permanent": true },
-    { "source": "/produkt/installera-tvattmaskin", "destination": "/installera-tvattmaskin", "permanent": true },
-    { "source": "/produkt/laga-lackande-blandare", "destination": "/laga-lackande-blandare", "permanent": true },
-    { "source": "/produkt/byta-handfat-kommod", "destination": "/byta-handfat-kommod", "permanent": true },
-    { "source": "/produkt/montera-tv-pa-vagg", "destination": "/montera-tv-pa-vagg", "permanent": true },
-    { "source": "/produkt", "destination": "/tjanster", "permanent": true },
-    { "source": "/produkt/:path*", "destination": "/tjanster", "permanent": true }
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.prmmontage.se"
+        }
+      ],
+      "destination": "https://prmmontage.se/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/rormokare-i-stockholm",
+      "destination": "/rormokare-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/rormokare-jour-i-stockholm",
+      "destination": "/akut-rormokare-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/jour-rormokare-i-stockholm",
+      "destination": "/akut-rormokare-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/akut-rormokare-i-stockholm",
+      "destination": "/akut-rormokare-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/pris-jour-rormokare-i-stockholm",
+      "destination": "/akut-rormokare-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/pris-akut-rormokare-i-stockholm",
+      "destination": "/akut-rormokare-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/vattenlacka-akut-i-stockholm",
+      "destination": "/vattenlacka-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/vattenlacka-i-stockholm",
+      "destination": "/vattenlacka-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/akut-vattenlacka-i-stockholm",
+      "destination": "/vattenlacka-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/snickeri-i-stockholm",
+      "destination": "/snickeri-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/interior-inredning-i-stockholm",
+      "destination": "/snickeri-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/inredning-i-stockholm",
+      "destination": "/snickeri-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/montera-ikea-kok-i-stockholm",
+      "destination": "/ikea-koksmontering-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/ikea-kok-i-stockholm",
+      "destination": "/ikea-koksmontering-stockholm",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/vvs-i-stockholm",
+      "destination": "/vvs-badrum",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/rormokare-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/vvs-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/rormokare-jour-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/jour-rormokare-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/akut-rormokare-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/pris-jour-rormokare-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/pris-akut-rormokare-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/vattenlacka-akut-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/vattenlacka-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/akut-vattenlacka-i-upplands-vasby",
+      "destination": "/rormokare-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/snickeri-i-upplands-vasby",
+      "destination": "/snickeri-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/interior-inredning-i-upplands-vasby",
+      "destination": "/snickeri-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/inredning-i-upplands-vasby",
+      "destination": "/snickeri-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/montera-ikea-kok-i-upplands-vasby",
+      "destination": "/ikea-koksmontering-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/ikea-kok-i-upplands-vasby",
+      "destination": "/ikea-koksmontering-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/koksmontering-i-upplands-vasby",
+      "destination": "/koksmontering-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/kok-i-upplands-vasby",
+      "destination": "/koksmontering-upplands-vasby",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/page/:n*",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/koksmontering-vvs/:path*",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/vvs-snickeri-inredning/page/:n*",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/vvs-snickeri-inredning",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/vvs-snickeri-inredning/:path*",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/offert",
+      "destination": "/kontakt",
+      "permanent": true
+    },
+    {
+      "source": "/kontakta-oss",
+      "destination": "/kontakt",
+      "permanent": true
+    },
+    {
+      "source": "/tjanster/:path+",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/installera-eluttag-till-tvattmaskin-diskmaskin",
+      "destination": "/eluttag-tvattmaskin-diskmaskin",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/installera-eluttag-i-badrum",
+      "destination": "/eluttag-badrum",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/montera-duschhorn",
+      "destination": "/montera-duschvagg",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/byta-blandare",
+      "destination": "/byta-blandare",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/installera-diskmaskin",
+      "destination": "/installera-diskmaskin",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/byta-toalettstol",
+      "destination": "/byta-toalettstol",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/installera-tvattmaskin",
+      "destination": "/installera-tvattmaskin",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/laga-lackande-blandare",
+      "destination": "/laga-lackande-blandare",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/byta-handfat-kommod",
+      "destination": "/byta-handfat-kommod",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/montera-tv-pa-vagg",
+      "destination": "/montera-tv-pa-vagg",
+      "permanent": true
+    },
+    {
+      "source": "/produkt",
+      "destination": "/tjanster",
+      "permanent": true
+    },
+    {
+      "source": "/produkt/:path*",
+      "destination": "/tjanster",
+      "permanent": true
+    }
   ],
   "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
       ]
     }
   ]
